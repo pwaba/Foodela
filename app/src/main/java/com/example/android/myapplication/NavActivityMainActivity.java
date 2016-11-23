@@ -1,5 +1,6 @@
 package com.example.android.myapplication;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class NavActivityMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,6 +40,16 @@ public class NavActivityMainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        /* LISTVIEW */
+        final ListView listview = (ListView) findViewById(R.id.userListView);
+        String[] values = { "Android", "iPhone", "WindowsMobile",
+                "Blackberry", "WebOS", "Ubuntu", "Windows7" };
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter(this,
+                R.layout.user_obj, R.id.secondLine, values);
+
+        listview.setAdapter(adapter);
     }
 
     @Override
@@ -79,4 +98,6 @@ public class NavActivityMainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }
