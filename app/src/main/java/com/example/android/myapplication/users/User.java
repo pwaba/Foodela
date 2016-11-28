@@ -12,10 +12,11 @@ public class User {
     private String nickName;
     private String email;
     private String password;
+    private String headline;
     private int sumOfScores;
     private int nrOfScores;
 
-    public User(String name, String nickName, String email, String password, int sumOfScores, int nrOfScores)
+    public User(String name, String nickName, String email, String password, int sumOfScores, int nrOfScores,String headline)
     {
         this.name = name;
         this.nickName = nickName;
@@ -23,11 +24,12 @@ public class User {
         this.password = password;
         this.sumOfScores = sumOfScores;
         this.nrOfScores = nrOfScores;
+        this.headline = headline;
     }
 
-    public User(String name, String email, String password, String nickName)
+    public User(String name, String email, String password, String nickName, String headline)
     {
-        this(name, email, password, nickName, 0, 0);
+        this(name, nickName, email, password, 0, 0, headline);
     }
 
     public String getNickName() {
@@ -71,15 +73,21 @@ public class User {
      * Calculates the mean value of the score given to this user.
      * @return Mean value score with one decimal
      */
-    public String getAverageScore() {
-        double averageScore = 0;
-        final DecimalFormat df = new DecimalFormat("#.#");
+    public float getAverageScore() {
+        float averageScore = 0;
 
         if (this.nrOfScores != 0) {
             averageScore = this.sumOfScores / this.nrOfScores;
         }
 
-        return df.format(averageScore);
+        return averageScore;
     }
 
+    public String getHeadline() {
+        return headline;
+    }
+
+    public void setHeadline(String headline) {
+        this.headline = headline;
+    }
 }

@@ -20,10 +20,11 @@ public class UserHandler {
 
         this.users = new ArrayList<>();
 
-        this.users.add(new User("Nisse", "nisse@mail.com", "pass1", "nizz"));
-        this.users.add(new User("Tord", "tord@mail.com", "pass2", "MrT"));
-        this.users.add(new User("Lisa", "Lisa@mail.com", "pass3", "Lisa"));
-        this.users.add(new User("Anna", "Anna@mail.com", "pass4", "Anna"));
+        this.users.add(new User("Nisse", "nisse@mail.com", "pass1", "nizz", "Chocolate balls"));
+        this.users.add(new User("Tord", "tord@mail.com", "pass2", "MrT", 4,4,"Fläsklägg"));
+        this.users.add(new User("Lisa", "Lisa@mail.com", "pass3", "Lisa", 10,3,"Köttbullar"));
+        this.users.add(new User("Anna", "Anna@mail.com", "pass4", "Anna", "Körv"));
+        this.users.add(new User("Kalle Svensson", "ksven@mail.com", "pass5", "Cal", "Sylta"));
 
         WriteXMLFile xmlWriter = new WriteXMLFile(context);
         xmlWriter.main(null);

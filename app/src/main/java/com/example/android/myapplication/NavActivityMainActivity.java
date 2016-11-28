@@ -18,12 +18,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.example.android.myapplication.users.User;
+import com.example.android.myapplication.users.UserAdapter;
+import com.example.android.myapplication.users.UserHandler;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class NavActivityMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    UserHandler userHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +47,24 @@ public class NavActivityMainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        /* User handler */
+        this.userHandler = new UserHandler(getApplicationContext());
+
         /* LISTVIEW */
-        final ListView listview = (ListView) findViewById(R.id.userListView);
-        String[] values = { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7" };
+        // Construct the data source
+        ArrayList<User> arrayOfUsers = new ArrayList<User>();
+        // Create the adapter to convert the array to views
+        UserAdapter adapter = new UserAdapter(this, arrayOfUsers);
+        // Attach the adapter to a ListView
+        ListView listView = (ListView) findViewById(R.id.userListView);
+        listView.setAdapter(adapter);
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter(this,
-                R.layout.user_obj, R.id.secondLine, values);
+        List<User> users = userHandler.getUsers();
 
-        listview.setAdapter(adapter);
+        for (User user: users)
+        {
+            adapter.add(user);
+        }
     }
 
     @Override
