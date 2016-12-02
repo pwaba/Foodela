@@ -18,6 +18,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import com.example.android.myapplication.users.User;
 import com.example.android.myapplication.users.UserAdapter;
 import com.example.android.myapplication.users.UserHandler;
@@ -65,6 +72,9 @@ public class NavActivityMainActivity extends AppCompatActivity
         {
             adapter.add(user);
         }
+
+
+        MapsActivity mapsActivity = new MapsActivity();
     }
 
     @Override
