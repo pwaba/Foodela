@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -33,10 +34,12 @@ public class UserAdapter extends ArrayAdapter<User> {
         TextView nickname = (TextView) convertView.findViewById(R.id.secondLine);
         TextView headline = (TextView) convertView.findViewById(R.id.firstLine);
         RatingBar ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar);
+        ImageView image = (ImageView) convertView.findViewById(R.id.userIcon);
         // Populate the data into the template view using the data object
         nickname.setText(user.getName());
         headline.setText(user.getHeadline());
         ratingBar.setRating(user.getAverageScore());
+        image.setImageResource(R.drawable.ic_menu_gallery);
         // Return the completed view to render on screen
         return convertView;
     }
