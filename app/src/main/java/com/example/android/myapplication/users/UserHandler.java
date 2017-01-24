@@ -2,6 +2,7 @@ package com.example.android.myapplication.users;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,17 +19,32 @@ public class UserHandler {
 
     public UserHandler(Context context) {
 
+        DatabaseHelper db = new DatabaseHelper(context);
+
         this.users = new ArrayList<>();
 
-        this.users.add(new User("Nisse", "nisse@mail.com", "pass1", "nizz", "Chocolate balls"));
-        this.users.add(new User("Tord", "tord@mail.com", "pass2", "MrT", 4,4,"Fläsklägg"));
-        this.users.add(new User("Lisa", "Lisa@mail.com", "pass3", "Lisa", 10,3,"Köttbullar"));
-        this.users.add(new User("Anna", "Anna@mail.com", "pass4", "Anna", "Körv"));
-        this.users.add(new User("Kalle Svensson", "ksven@mail.com", "pass5", "Cal", "Sylta"));
+        if (db.getUsersCount() == 0) {
 
-        WriteXMLFile xmlWriter = new WriteXMLFile(context);
-        xmlWriter.main(null);
+            /* If nothing in database fill it with this test users */
+            this.users.add(new User("Nisse", "nisse@mail.com", "pass1", "nizz", "Chocolate balls", 59.310768, 18.069999));
+            this.users.add(new User("Tord", "tord@mail.com", "pass2", "MrT", 4, 4, "Fläsklägg", 59.303057, 17.989887));
+            this.users.add(new User("Lisa", "Lisa@mail.com", "pass3", "Lisa", 10, 3, "Köttbullar", 59.338792, 18.053402));
+            this.users.add(new User("Anna", "Anna@mail.com", "pass4", "Anna", "Körv", 59.341944, 18.10799));
+            this.users.add(new User("Kalle Svensson", "ksven@mail.com", "pass5", "Cal", "Sylta", 33, 4));
+            // Inserting Contacts
+            Log.d("Insert: ", "Inserting ..");
+            for (User user : this.users) {
+                db.addUserToDb(user);
+            }
+        }
+        else
+        {
+            for (User user: db.getAllUsers()) {
+                this.users.add(user);
+            }
+        }
     }
+
 
     public List<User> getUsers() {
         return this.users;

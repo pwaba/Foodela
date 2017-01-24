@@ -1,12 +1,21 @@
 package com.example.android.myapplication.users;
 
-import java.text.DecimalFormat;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  * Created by peter on 2016-11-03.
  */
 
-public class User {
+public class User implements Serializable {
 
     private String name;
     private String nickName;
@@ -15,8 +24,10 @@ public class User {
     private String headline;
     private int sumOfScores;
     private int nrOfScores;
+    private double latPosition;
+    private double longPosition;
 
-    public User(String name, String nickName, String email, String password, int sumOfScores, int nrOfScores,String headline)
+    public User(String name, String email, String password, String nickName,int sumOfScores, int nrOfScores, String headline, double latPosition, double longPosition)
     {
         this.name = name;
         this.nickName = nickName;
@@ -25,11 +36,13 @@ public class User {
         this.sumOfScores = sumOfScores;
         this.nrOfScores = nrOfScores;
         this.headline = headline;
+        this.latPosition = latPosition;
+        this.longPosition = longPosition;
     }
 
-    public User(String name, String email, String password, String nickName, String headline)
+    public User(String name, String email, String password, String nickName, String headline, double latPosition, double longPosition)
     {
-        this(name, nickName, email, password, 0, 0, headline);
+        this(name, email, password, nickName,0, 0,  headline, latPosition, longPosition);
     }
 
     public String getNickName() {
@@ -64,6 +77,15 @@ public class User {
         this.password = password;
     }
 
+    public LatLng getPosition() {
+        return new LatLng(this.latPosition, this.longPosition);
+    }
+
+    public void setPosition(double latPosition, double longPosition) {
+        this.latPosition = latPosition;
+        this.longPosition = longPosition;
+    }
+
     public void addNewScore(int score) {
         this.sumOfScores += score;
         this.nrOfScores++;
@@ -89,5 +111,70 @@ public class User {
 
     public void setHeadline(String headline) {
         this.headline = headline;
+    }
+
+    public int getNrOfScores() {
+        return nrOfScores;
+    }
+
+    public int getSumOfScores() {
+        return sumOfScores;
+    }
+
+    public byte[] getBytes()
+    {
+        byte[] yourBytes = new byte[1];
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutput out = null;
+        try {
+            out = new ObjectOutputStream(bos);
+            out.writeObject(this);
+            out.flush();
+            yourBytes = bos.toByteArray();
+        }
+        catch (IOException ex) {
+
+        }
+
+        finally {
+            try {
+                bos.close();
+            } catch (IOException ex) {
+                // ignore close exception
+            }
+        }
+
+        return yourBytes;
+    }
+
+    public static User createObjFromBytes(byte[] bytes)
+    {
+        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+        ObjectInput in = null;
+        User userObj = new User("","","","","",1,2);
+
+        try {
+            in = new ObjectInputStream(bis);
+            Object o = in.readObject();
+            userObj = (User) o;
+        }
+        catch (IOException ex2)
+        {
+
+        }
+        catch (ClassNotFoundException ex) {
+
+        }
+            finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException ex) {
+                // ignore close exception
+            }
+        }
+
+        return userObj;
     }
 }
