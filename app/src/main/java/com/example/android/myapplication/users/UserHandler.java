@@ -15,9 +15,10 @@ import java.util.List;
 
 public class UserHandler {
 
+    private final User currentUser;
     private List<User> users;
 
-    public UserHandler(Context context) {
+    public UserHandler(Context context, String userNickName) {
 
         DatabaseHelper db = new DatabaseHelper(context);
 
@@ -43,11 +44,24 @@ public class UserHandler {
                 this.users.add(user);
             }
         }
+
+        this.currentUser = db.getUserByNickName(userNickName);
     }
 
-
+    /**
+     *
+     * @return All users
+     */
     public List<User> getUsers() {
         return this.users;
+    }
+
+    /**
+     *
+     * @return Registered current user
+     */
+    public User getCurrentUser() {
+        return currentUser;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.example.android.myapplication.users;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -17,6 +18,7 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
+    private boolean isActiveOnMap;
     private String name;
     private String nickName;
     private String email;
@@ -26,6 +28,7 @@ public class User implements Serializable {
     private int nrOfScores;
     private double latPosition;
     private double longPosition;
+    private Marker marker;
 
     public User(String name, String email, String password, String nickName,int sumOfScores, int nrOfScores, String headline, double latPosition, double longPosition)
     {
@@ -38,6 +41,7 @@ public class User implements Serializable {
         this.headline = headline;
         this.latPosition = latPosition;
         this.longPosition = longPosition;
+        this.isActiveOnMap = false;
     }
 
     public User(String name, String email, String password, String nickName, String headline, double latPosition, double longPosition)
@@ -121,6 +125,10 @@ public class User implements Serializable {
         return sumOfScores;
     }
 
+    /**
+     * Get a byte array representation of this user
+     * @return
+     */
     public byte[] getBytes()
     {
         byte[] yourBytes = new byte[1];
@@ -147,6 +155,11 @@ public class User implements Serializable {
         return yourBytes;
     }
 
+    /**
+     * Create a user object from a byte array
+     * @param bytes
+     * @return
+     */
     public static User createObjFromBytes(byte[] bytes)
     {
         ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
@@ -176,5 +189,25 @@ public class User implements Serializable {
         }
 
         return userObj;
+    }
+
+    public void updateCurrentPosition() {
+
+    }
+
+    public void setMarker(Marker marker) {
+        this.marker = marker;
+    }
+
+    public Marker getMarker() {
+        return marker;
+    }
+
+    public boolean getIsActiveOnMap() {
+        return isActiveOnMap;
+    }
+
+    public void setIsActiveOnMap(boolean isActiveOnMap) {
+        this.isActiveOnMap = isActiveOnMap;
     }
 }

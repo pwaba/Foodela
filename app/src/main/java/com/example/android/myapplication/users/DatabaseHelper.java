@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "userDb5";
+    private static final String DATABASE_NAME = "userDb12";
     private static final String TABLE_CONTACTS = "users";
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
@@ -45,7 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(KEY_NAME, user.getName());
+        values.put(KEY_NAME, user.getNickName());
         values.put(KEY_USER_DATA, user.getBytes());
 
         // Inserting Row
@@ -53,8 +53,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    // code to get the single contact
-    User getUser(int id) {
+    /**
+     * code to get the single user, key ID
+     * @param id
+     * @return
+     */
+    User getUserById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         byte[] blob = {'1'};
         String[] stra = new String[] { KEY_ID, KEY_NAME, KEY_USER_DATA};
@@ -72,12 +76,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return User.createObjFromBytes(blob);
     }
+    /**
+     * code to get the single user, key ID
+     * @param name
+     * @return
+     */
+    User getUserByNickName(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        byte[] blob = {'1'};
+        String[] stra = new String[] { KEY_ID, KEY_NAME, KEY_USER_DATA};
+
+        Cursor cursor = db.query(TABLE_CONTACTS, stra, KEY_NAME + "=?",
+                new String[] { name }, null, null, null, null);
+
+        if (cursor != null)
+        {
+            cursor.moveToFirst();
+            blob = cursor.getBlob(2);
+        }
+
+        db.close(); // Closing database connection
+
+        return User.createObjFromBytes(blob);
+    }
 
    // code to get all contacts in a list view
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<User>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+        String selectQuery = "SELECT * FROM " + TABLE_CONTACTS;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

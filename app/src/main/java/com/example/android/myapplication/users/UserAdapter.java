@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import com.example.android.myapplication.NavActivityMainActivity;
 import com.example.android.myapplication.R;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
 
@@ -70,9 +70,23 @@ public class UserAdapter extends ArrayAdapter<User> {
             GoogleMap mMap = ((NavActivityMainActivity)mContext).getmMap();
             User user = getItem(position);
 
+            Marker marker;
+
+            for (int i=0; i<getCount();i++) {
+                boolean isact = getItem(i).getIsActiveOnMap();
+                if (isact) {
+                    marker = getItem(i).getMarker();
+                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                }
+            }
+
+            user.setIsActiveOnMap(true);
+            marker = user.getMarker();
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+            /*
             mMap.clear();
             mMap.addMarker(new MarkerOptions().position(user.getPosition()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(user.getPosition()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(user.getPosition()));*/
         }
     };
 
